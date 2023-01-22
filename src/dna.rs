@@ -3,7 +3,7 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
-use crate::{nucleotide, Nucleotide};
+use crate::Nucleotide;
 
 use rand::prelude::*;
 
@@ -40,6 +40,18 @@ impl Into<String> for DNA {
             string.push(nucleotide.into())
         }
         string
+    }
+}
+
+impl From<&str> for DNA{
+    fn from(value: &str) -> Self {
+        let mut output = Vec::with_capacity(value.len());
+        for c in value.chars(){
+            if let Ok(nucleotide) = Nucleotide::try_from(c){
+                output.push(nucleotide);
+            }
+        }
+        DNA(output)
     }
 }
 
@@ -294,14 +306,30 @@ mod test {
     }
 
     #[test]
-    fn insertion() {
+    fn insertion_0() {
         let slise: &[Nucleotide] = &T__1[..];
-        let mut dna0: DNA = slise.into();
+        let mut dna: DNA = slise.into();
+        dna.insertion(&T__0, 0);
+        let t: DNA = DNA::from("AGCTAAGGCCTT");
+        assert_eq!(t, dna)
+    }
 
-        let slise: &[Nucleotide] = &T__0[..];
-        let dna1: DNA = slise.into();
+    #[test]
+    fn insertion_1() {
+        let slise: &[Nucleotide] = &T__1[..];
+        let mut dna: DNA = slise.into();
+        dna.insertion(&T__0, 2);
+        let t: DNA = DNA::from("AAAGCTGGCCTT");
+        assert_eq!(t, dna)
+    }
 
-        dna0.insertion(&dna1[..], 0);
-        
+    #[test]
+    fn insertion_2() {
+        let slise: &[Nucleotide] = &T__1[..];
+        let mut dna: DNA = slise.into();
+        dna.insertion(&[T], 1);
+        println!("{dna}");
+        let t: DNA = DNA::from("ATAGGCCTT");
+        assert_eq!(t, dna)
     }
 }
