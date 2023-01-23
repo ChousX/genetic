@@ -5,10 +5,10 @@ pub trait Genetic {
     fn from_dna(dna: DNA) -> Self;
 }
 
-pub trait Asexual: Genetic {
-    fn bread(&self) -> DNA;
-}
-
 pub trait Sexual: Genetic {
-    fn bread(&self, other: &Self) -> DNA;
+    fn bread(&self, other: &Self) -> DNA{
+        let dna0 = self.to_dna();
+        let dna1 = other.to_dna();
+        dna0.crossover(&dna1)
+    }
 }

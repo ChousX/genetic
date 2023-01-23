@@ -2,10 +2,8 @@ mod dna;
 mod genetic;
 mod nucleotide;
 pub use nucleotide::*;
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn profile() {}
+pub mod prelude{
+    pub use crate::nucleotide::*;
+    pub use crate::genetic::*;
+    pub use crate::dna::*;
 }
